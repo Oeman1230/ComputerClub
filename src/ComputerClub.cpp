@@ -13,7 +13,7 @@ ComputerCub::ComputerCub(std::string inputFileName)
 	{
 		strLines = readLinesFromFile(fileName);
 
-		//убираем лишние пустые символы при наличии для удобства
+		//СѓР±РёСЂР°РµРј Р»РёС€РЅРёРµ РїСѓСЃС‚С‹Рµ СЃРёРјРІРѕР»С‹ РїСЂРё РЅР°Р»РёС‡РёРё РґР»СЏ СѓРґРѕР±СЃС‚РІР°
 		compressStrArr(strLines); 
 	}
 	catch (...)
@@ -86,8 +86,8 @@ int ComputerCub::readConfigFromFile()
 
 	try
 	{
-		//Время открытия и закрытия приходит в формате "ХХ:ХХ ХХ:ХХ" 
-		//Разделяем на две строки
+		//Р’СЂРµРјСЏ РѕС‚РєСЂС‹С‚РёСЏ Рё Р·Р°РєСЂС‹С‚РёСЏ РїСЂРёС…РѕРґРёС‚ РІ С„РѕСЂРјР°С‚Рµ "РҐРҐ:РҐРҐ РҐРҐ:РҐРҐ" 
+		//Р Р°Р·РґРµР»СЏРµРј РЅР° РґРІРµ СЃС‚СЂРѕРєРё
 		StrVectorPtr tempStrTime = split(strLines->at(TIME_OPEN_TIME_CLOSE_POS), " ");
 		if (tempStrTime == nullptr)
 		{
@@ -168,7 +168,7 @@ void ComputerCub::printClubEvents()
 
 int ComputerCub::start()
 {
-	//Проверка успешности инициализации класса
+	//РџСЂРѕРІРµСЂРєР° СѓСЃРїРµС€РЅРѕСЃС‚Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РєР»Р°СЃСЃР°
 	if (canStart != true)
 	{
 		return -1;
@@ -208,7 +208,7 @@ int ComputerCub::start()
 
 	}
 
-	//Выдача необходимой информации
+	//Р’С‹РґР°С‡Р° РЅРµРѕР±С…РѕРґРёРјРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
 	printClubOpenData();
 	printClubEvents();
 	printClubCloseData();
@@ -220,7 +220,7 @@ void ComputerCub::actionAfterClosing()
 {
 	std::list<std::string> lastClients;
 	
-	//Заполняем список последних клиентов людьми за компьютерами
+	//Р—Р°РїРѕР»РЅСЏРµРј СЃРїРёСЃРѕРє РїРѕСЃР»РµРґРЅРёС… РєР»РёРµРЅС‚РѕРІ Р»СЋРґСЊРјРё Р·Р° РєРѕРјРїСЊСЋС‚РµСЂР°РјРё
 	for (size_t i = 0; i < computers.size(); i++)
 	{
 		if (computers.at(i).owner.expired())
@@ -231,7 +231,7 @@ void ComputerCub::actionAfterClosing()
 
 		lastClients.push_back(itClient->name);
 		WorkTime timeSpent = WorkTime::getDifference(itClient->atComputerStartTime, config.closeTime);
-		//обновляем состояния компьютеров
+		//РѕР±РЅРѕРІР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРѕРјРїСЊСЋС‚РµСЂРѕРІ
 		computers.at(i).timeUsed += timeSpent;
 		computers.at(i).seatIncome += calcIncome(timeSpent);
 
@@ -241,7 +241,7 @@ void ComputerCub::actionAfterClosing()
 		computers.at(i).owner.reset();
 	}
 
-	//Заполняем список последних клиентов людьми в очереди ожидания
+	//Р—Р°РїРѕР»РЅСЏРµРј СЃРїРёСЃРѕРє РїРѕСЃР»РµРґРЅРёС… РєР»РёРµРЅС‚РѕРІ Р»СЋРґСЊРјРё РІ РѕС‡РµСЂРµРґРё РѕР¶РёРґР°РЅРёСЏ
 	auto awaitingIt = awaitingPeople.begin();
 	while (awaitingIt != awaitingPeople.end())
 	{
@@ -257,7 +257,7 @@ void ComputerCub::actionAfterClosing()
 	}
 	awaitingPeople.clear();
 
-	//Добавляем оставшихся людей
+	//Р”РѕР±Р°РІР»СЏРµРј РѕСЃС‚Р°РІС€РёС…СЃСЏ Р»СЋРґРµР№
 	for (auto it : peopleInside)
 	{
 		lastClients.push_back(it->name);
@@ -265,7 +265,7 @@ void ComputerCub::actionAfterClosing()
 
 	lastClients.sort();
 
-	//Генерация выходного события для каждого уходящего клиента 
+	//Р“РµРЅРµСЂР°С†РёСЏ РІС‹С…РѕРґРЅРѕРіРѕ СЃРѕР±С‹С‚РёСЏ РґР»СЏ РєР°Р¶РґРѕРіРѕ СѓС…РѕРґСЏС‰РµРіРѕ РєР»РёРµРЅС‚Р° 
 	auto lastOutClientIt = lastClients.begin();
 	while (lastOutClientIt != lastClients.end())
 	{
@@ -297,30 +297,30 @@ ClubEvent ComputerCub::readEvent(size_t index)
 	{
 		throw std::exception(); 
 	}
-	//Минимальное количество параметров события
+	//РњРёРЅРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕР±С‹С‚РёСЏ
 	const int SHORT_INPUT_EVENT_SIZE = 2;
-	//Максимальное количество параметров события
+	//РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕР±С‹С‚РёСЏ
 	const int LONG_INPUT_EVENT_SIZE = 3;
-	//Проверка на корректность количества параметров в строке события
+	//РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РєРѕР»РёС‡РµСЃС‚РІР° РїР°СЂР°РјРµС‚СЂРѕРІ РІ СЃС‚СЂРѕРєРµ СЃРѕР±С‹С‚РёСЏ
 	if (eLine->size() - 1 > LONG_INPUT_EVENT_SIZE || eLine->size() - 1 < SHORT_INPUT_EVENT_SIZE)
 	{
 		throw std::exception();
 	}
 	
-	//По шаблону события первым идет время
+	//РџРѕ С€Р°Р±Р»РѕРЅСѓ СЃРѕР±С‹С‚РёСЏ РїРµСЂРІС‹Рј РёРґРµС‚ РІСЂРµРјСЏ
 	eTime = WorkTime(eLine->at(0), TIME_SEPARATOR);
-	//По шаблону события вторым идет id
+	//РџРѕ С€Р°Р±Р»РѕРЅСѓ СЃРѕР±С‹С‚РёСЏ РІС‚РѕСЂС‹Рј РёРґРµС‚ id
 	if (!isStrDigit(eLine->at(1)))
 	{
 		throw std::exception();
 	}
 	eId = std::atoi(eLine->at(1).c_str());
 
-	//По шаблону третьим параметром должно идти имя клиента 
+	//РџРѕ С€Р°Р±Р»РѕРЅСѓ С‚СЂРµС‚СЊРёРј РїР°СЂР°РјРµС‚СЂРѕРј РґРѕР»Р¶РЅРѕ РёРґС‚Рё РёРјСЏ РєР»РёРµРЅС‚Р° 
 	eBody.append(eLine->at(SHORT_INPUT_EVENT_SIZE));
 
 	
-	//В случае наличия доп параметров добавляем в тело события
+	//Р’ СЃР»СѓС‡Р°Рµ РЅР°Р»РёС‡РёСЏ РґРѕРї РїР°СЂР°РјРµС‚СЂРѕРІ РґРѕР±Р°РІР»СЏРµРј РІ С‚РµР»Рѕ СЃРѕР±С‹С‚РёСЏ
 	if (eLine->size() - 1 > SHORT_INPUT_EVENT_SIZE)
 	{
 		eBody.append(" ");
@@ -335,7 +335,7 @@ ClubEvent ComputerCub::readEvent(size_t index)
 
 void ComputerCub::handleEvent(const ClubEvent& e)
 {
-	//Добавляем входное событие в список
+	//Р”РѕР±Р°РІР»СЏРµРј РІС…РѕРґРЅРѕРµ СЃРѕР±С‹С‚РёРµ РІ СЃРїРёСЃРѕРє
 	insertEventToList(e);
 
 	try
@@ -360,14 +360,14 @@ void ComputerCub::handleEvent(const ClubEvent& e)
 			break;
 		}
 	}
-	//Обработка известных событий-ошибок
+	//РћР±СЂР°Р±РѕС‚РєР° РёР·РІРµСЃС‚РЅС‹С… СЃРѕР±С‹С‚РёР№-РѕС€РёР±РѕРє
 	catch (const ClubErrors::BaseError& err)
 	{
 		ClubEvent errorEvent;
 		errorEvent.eventTime = e.eventTime;
 		errorEvent.eventId = (int)ClubOutputEventIDs::GOT_ERROR;
 		errorEvent.eventBody = err.desc;
-		//Программа не должна прекращать работу
+		//РџСЂРѕРіСЂР°РјРјР° РЅРµ РґРѕР»Р¶РЅР° РїСЂРµРєСЂР°С‰Р°С‚СЊ СЂР°Р±РѕС‚Сѓ
 		insertEventToList(errorEvent);
 	}
 
@@ -400,7 +400,7 @@ void ComputerCub::clientCameAction(const ClubEvent& e)
 		throw ClubErrors::YouShallNotPass();
 	}
 
-	//Добавляем клиента в список вошедших людей
+	//Р”РѕР±Р°РІР»СЏРµРј РєР»РёРµРЅС‚Р° РІ СЃРїРёСЃРѕРє РІРѕС€РµРґС€РёС… Р»СЋРґРµР№
 
 	std::shared_ptr<Client> tempPerson = std::make_shared<Client>();
 	tempPerson->name = e.eventBody;
@@ -425,7 +425,7 @@ bool ComputerCub::isPlaceBusy(size_t seatIndex)
 
 bool ComputerCub::isClientInside(const Client& person)
 {
-	//Ищем клиента по имени
+	//РС‰РµРј РєР»РёРµРЅС‚Р° РїРѕ РёРјРµРЅРё
 	auto personIt = std::find_if(peopleInside.begin(), peopleInside.end(),
 		[&](const std::shared_ptr<Client> it)
 		{
@@ -437,7 +437,7 @@ bool ComputerCub::isClientInside(const Client& person)
 		}
 	);
 
-	//Случай, когда человека нет внутри
+	//РЎР»СѓС‡Р°Р№, РєРѕРіРґР° С‡РµР»РѕРІРµРєР° РЅРµС‚ РІРЅСѓС‚СЂРё
 	if (personIt == peopleInside.end()) 
 	{
 		return false;
@@ -459,7 +459,7 @@ size_t ComputerCub::findFirstFreePos()
 		}
 	}
 
-	if (i >= computers.size()) //Случай, когда весь клуб занят
+	if (i >= computers.size()) //РЎР»СѓС‡Р°Р№, РєРѕРіРґР° РІРµСЃСЊ РєР»СѓР± Р·Р°РЅСЏС‚
 	{
 		throw ClubErrors::ClubIsBusy();
 	}
@@ -475,7 +475,7 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 		throw ClubErrors::NotOpenYet();
 	}
 
-	//Известно, что событие посадки клиента состоит из 2 частей - разделяем
+	//РР·РІРµСЃС‚РЅРѕ, С‡С‚Рѕ СЃРѕР±С‹С‚РёРµ РїРѕСЃР°РґРєРё РєР»РёРµРЅС‚Р° СЃРѕСЃС‚РѕРёС‚ РёР· 2 С‡Р°СЃС‚РµР№ - СЂР°Р·РґРµР»СЏРµРј
 	StrVectorPtr eBody = split(e.eventBody, " ");
 	
 	if (eBody == nullptr)
@@ -488,11 +488,11 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 		throw ClubErrors::ClientUnknown();
 	}
 
-	//Конвертируем реальный индекс позиции в программный 
+	//РљРѕРЅРІРµСЂС‚РёСЂСѓРµРј СЂРµР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ РїРѕР·РёС†РёРё РІ РїСЂРѕРіСЂР°РјРјРЅС‹Р№ 
 	size_t realPos = std::atoi(eBody->at(1).c_str());
 	size_t pos = realPos - 1;
 
-	//Находим указатель на человека в списке людей внутри. Предыдущая проверка гарантирует наличие
+	//РќР°С…РѕРґРёРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С‡РµР»РѕРІРµРєР° РІ СЃРїРёСЃРєРµ Р»СЋРґРµР№ РІРЅСѓС‚СЂРё. РџСЂРµРґС‹РґСѓС‰Р°СЏ РїСЂРѕРІРµСЂРєР° РіР°СЂР°РЅС‚РёСЂСѓРµС‚ РЅР°Р»РёС‡РёРµ
 	auto currentPerson = std::find_if(peopleInside.begin(), peopleInside.end(),
 		[&](std::shared_ptr<Client> it)
 		{
@@ -504,7 +504,7 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 
 		});
 
-	//Проверка сидит ли человек за компьютером
+	//РџСЂРѕРІРµСЂРєР° СЃРёРґРёС‚ Р»Рё С‡РµР»РѕРІРµРє Р·Р° РєРѕРјРїСЊСЋС‚РµСЂРѕРј
 	auto isPersonSittingIt = computers.begin();
 	while (isPersonSittingIt != computers.end())
 	{
@@ -513,7 +513,7 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 			isPersonSittingIt++;
 			continue;
 		}
-		//Случай, если человек уже сидит за столом
+		//РЎР»СѓС‡Р°Р№, РµСЃР»Рё С‡РµР»РѕРІРµРє СѓР¶Рµ СЃРёРґРёС‚ Р·Р° СЃС‚РѕР»РѕРј
 		if (isPersonSittingIt->owner.lock()->name == currentPerson->get()->name)
 		{
 			break;
@@ -522,10 +522,10 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 		isPersonSittingIt++;
 	}
 
-	//Проверка места на доступность
+	//РџСЂРѕРІРµСЂРєР° РјРµСЃС‚Р° РЅР° РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ
 	if (isPlaceBusy(pos))
 	{
-		//В случае, если человек не сидит за столом, то он попадает в список ожидания
+		//Р’ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё С‡РµР»РѕРІРµРє РЅРµ СЃРёРґРёС‚ Р·Р° СЃС‚РѕР»РѕРј, С‚Рѕ РѕРЅ РїРѕРїР°РґР°РµС‚ РІ СЃРїРёСЃРѕРє РѕР¶РёРґР°РЅРёСЏ
 		if (isPersonSittingIt == computers.end())
 		{
 			awaitingPeople.push_back(*currentPerson);
@@ -534,21 +534,21 @@ void ComputerCub::clientSitAction(const ClubEvent& e)
 		throw ClubErrors::PlaceIsBusy();
 	}
 
-	//Случай пересадки клиента на другое место
+	//РЎР»СѓС‡Р°Р№ РїРµСЂРµСЃР°РґРєРё РєР»РёРµРЅС‚Р° РЅР° РґСЂСѓРіРѕРµ РјРµСЃС‚Рѕ
 	if (isPersonSittingIt != computers.end())
 	{
-		//Запоминаем время за компьютером
+		//Р—Р°РїРѕРјРёРЅР°РµРј РІСЂРµРјСЏ Р·Р° РєРѕРјРїСЊСЋС‚РµСЂРѕРј
 		WorkTime timeUsed = WorkTime::getDifference(currentPerson->get()->atComputerStartTime, e.eventTime);
 		isPersonSittingIt->timeUsed += timeUsed;
 
-		//Перемещаем клиента за другой стол
+		//РџРµСЂРµРјРµС‰Р°РµРј РєР»РёРµРЅС‚Р° Р·Р° РґСЂСѓРіРѕР№ СЃС‚РѕР»
 		computers.at(pos).owner = isPersonSittingIt->owner;
 		isPersonSittingIt->owner.reset();
 		computers.at(pos).owner.lock()->atComputerStartTime = e.eventTime;
 		return;
 	}
 	
-	//данный случай, когда клиент впервые сел за стол
+	//РґР°РЅРЅС‹Р№ СЃР»СѓС‡Р°Р№, РєРѕРіРґР° РєР»РёРµРЅС‚ РІРїРµСЂРІС‹Рµ СЃРµР» Р·Р° СЃС‚РѕР»
 	currentPerson->get()->atComputerStartTime = e.eventTime;
 	currentPerson->get()->startUsingComputerTime = e.eventTime;
 	computers.at(pos).owner = *currentPerson;
@@ -565,8 +565,8 @@ void ComputerCub::clientAwaitAction(const ClubEvent& e)
 
 	try
 	{
-		//Проверка исключением на занятость столов
-		findFirstFreePos(); //Номер свободного стола не важен
+		//РџСЂРѕРІРµСЂРєР° РёСЃРєР»СЋС‡РµРЅРёРµРј РЅР° Р·Р°РЅСЏС‚РѕСЃС‚СЊ СЃС‚РѕР»РѕРІ
+		findFirstFreePos(); //РќРѕРјРµСЂ СЃРІРѕР±РѕРґРЅРѕРіРѕ СЃС‚РѕР»Р° РЅРµ РІР°Р¶РµРЅ
 
 		throw ClubErrors::ICanWaitNoLonger();
 	}
@@ -575,7 +575,7 @@ void ComputerCub::clientAwaitAction(const ClubEvent& e)
 		
 	}
 
-	//Проверяем есть ли клиент в списке ожидания
+	//РџСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё РєР»РёРµРЅС‚ РІ СЃРїРёСЃРєРµ РѕР¶РёРґР°РЅРёСЏ
 	auto personInside = peopleInside.begin();
 	while (personInside != peopleInside.end())
 	{
@@ -586,13 +586,13 @@ void ComputerCub::clientAwaitAction(const ClubEvent& e)
 
 		personInside++;
 	}
-	//Если клиент не в списке ожидания
+	//Р•СЃР»Рё РєР»РёРµРЅС‚ РЅРµ РІ СЃРїРёСЃРєРµ РѕР¶РёРґР°РЅРёСЏ
 	if (personInside == peopleInside.end())
 	{
 		awaitingPeople.push_back(*personInside);
 	}
 
-	//Если в списке ожидания клиентов больше, чем столов, генерируем событие выхода человека
+	//Р•СЃР»Рё РІ СЃРїРёСЃРєРµ РѕР¶РёРґР°РЅРёСЏ РєР»РёРµРЅС‚РѕРІ Р±РѕР»СЊС€Рµ, С‡РµРј СЃС‚РѕР»РѕРІ, РіРµРЅРµСЂРёСЂСѓРµРј СЃРѕР±С‹С‚РёРµ РІС‹С…РѕРґР° С‡РµР»РѕРІРµРєР°
 	if (awaitingPeople.size() > computers.size())
 	{
 		ClubEvent tooManyPeopleE = e;
@@ -665,7 +665,7 @@ void ComputerCub::clientOutAction(const ClubEvent& e)
 	{
 		throw ClubErrors::ClientUnknown();
 	}
-	//Поиск человека за столом
+	//РџРѕРёСЃРє С‡РµР»РѕРІРµРєР° Р·Р° СЃС‚РѕР»РѕРј
 	size_t i = 0;
 	for (; i < computers.size(); i++)
 	{
@@ -682,23 +682,23 @@ void ComputerCub::clientOutAction(const ClubEvent& e)
 
 	}
 
-	//Случай, если человек не сидит
+	//РЎР»СѓС‡Р°Р№, РµСЃР»Рё С‡РµР»РѕРІРµРє РЅРµ СЃРёРґРёС‚
 	if (i >= computers.size())
 	{
 		removePersonFromPeopleInside(Client(e.eventBody));
 		return;
 	}
 
-	//Не выбрасывающее исключение удаление из списка
+	//РќРµ РІС‹Р±СЂР°СЃС‹РІР°СЋС‰РµРµ РёСЃРєР»СЋС‡РµРЅРёРµ СѓРґР°Р»РµРЅРёРµ РёР· СЃРїРёСЃРєР°
 	removePersonFromAwaitingList(Client(e.eventBody));
 
-	//Обновляем состояния стола
+	//РћР±РЅРѕРІР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃС‚РѕР»Р°
 	std::shared_ptr<Client> curClient = computers.at(i).owner.lock();
 
 	WorkTime timeSpent = WorkTime::getDifference(curClient->atComputerStartTime, e.eventTime);
 	computers.at(i).timeUsed += timeSpent;
 
-	//считаем долг человека
+	//СЃС‡РёС‚Р°РµРј РґРѕР»Рі С‡РµР»РѕРІРµРєР°
 	WorkTime computerUsageTime = WorkTime::getDifference(curClient->startUsingComputerTime, e.eventTime);
 	computers.at(i).seatIncome += calcIncome(computerUsageTime);
 
@@ -708,10 +708,10 @@ void ComputerCub::clientOutAction(const ClubEvent& e)
 
 	removePersonFromPeopleInside(Client(e.eventBody));
 
-	//Случай, если есть люди в списке ожидания
+	//РЎР»СѓС‡Р°Р№, РµСЃР»Рё РµСЃС‚СЊ Р»СЋРґРё РІ СЃРїРёСЃРєРµ РѕР¶РёРґР°РЅРёСЏ
 	if (awaitingPeople.size() != 0)
 	{
-		//Сажаем первого ожидающего клиента за стол
+		//РЎР°Р¶Р°РµРј РїРµСЂРІРѕРіРѕ РѕР¶РёРґР°СЋС‰РµРіРѕ РєР»РёРµРЅС‚Р° Р·Р° СЃС‚РѕР»
 		std::weak_ptr<Client> lastWaitingPerson;
 		lastWaitingPerson = awaitingPeople.front();
 		awaitingPeople.pop_front();
@@ -721,7 +721,7 @@ void ComputerCub::clientOutAction(const ClubEvent& e)
 
 		computers.at(i).owner = lastWaitingPerson;
 
-		//Генерируем выходное событие посадки клиента
+		//Р“РµРЅРµСЂРёСЂСѓРµРј РІС‹С…РѕРґРЅРѕРµ СЃРѕР±С‹С‚РёРµ РїРѕСЃР°РґРєРё РєР»РёРµРЅС‚Р°
 		ClubEvent clientOutE;
 
 		clientOutE.eventTime = e.eventTime;

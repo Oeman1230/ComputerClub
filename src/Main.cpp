@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	}
 
 	std::string programStartArg = argv[1];
-	//процедура запуска приложения
+	//РїСЂРѕС†РµРґСѓСЂР° Р·Р°РїСѓСЃРєР° РїСЂРёР»РѕР¶РµРЅРёСЏ
 	ComputerCub club = ComputerCub(programStartArg);
 	club.start();
 
